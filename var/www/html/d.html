@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script>
+function httpGet(url)  
+{  
+        var xmlHttp = new XMLHttpRequest();  
+        xmlHttp.open("POST", url, false); // false: wait respond  
+        xmlHttp.send(null);  
+        return xmlHttp.responseText;  
+}  
+function f()  
+{  
+        var url = "http://127.0.0.1//cgi-bin/shell?"+ document.getElementById('in').value;  
+        document.getElementById('out').innerHTML = httpGet(url);  
+}  
+function show()  
+{  
+	if( document.getElementById("da").style.display == "none"){
+       document.getElementById("da").style.display = "block";
+}else{
+document.getElementById("da").style.display = "none";
+}
+
+}  
+function inDiary()  
+{  
+	var date = new Date();
+	var time = date.getFullYear()+"."+ (date.getMonth()+1)+"."+date.getDate()+"LFToN";<!--用的是br .replace(RegExp("\n", "g"), "<br>")-->
+
+	var da = document.getElementById('in2').value;
+	if(da !="" && da.lenth !=0){
+		var da1 = da.replace(RegExp("\n", "g"), 'LFToN'); //自行定义换行
+		var da2 = da1.replace(/\s*/g,"");//有空格会当作两个参数
+		var url = "http://127.0.0.1/cgi-bin/shell?./d.sh " +time + da2;                               
+		        console.log(url);                                                                                                                                                 
+		    document.getElementById('outDi').innerHTML = httpGet(url);           
+	}else{
+		alert("请输入内容");
+	}
+}  
+</script>
+</head>
+<body>
+<div>
+<span>command: </span>
+<input id='in'></input>
+<button onclick='f()'>send</button>
+<input name="go" type="button" value="go" onClick="location.href='http://8.131.48.71/jmk/4.html'">
+<button onclick='show()'>show</button>
+</div>
+<br/>
+
+<div  id="da" style="display: none;">
+<textarea id='in2'  name="diary" rows="10" cols="40"></textarea>
+<!--wrap="virtual"-->
+<button onclick='inDiary()'>send</button>
+</div>
+
+<div>
+<pre id='out'></pre>
+<pre id='outDi'></pre>
+</div>
+
+</body>
+</html>
